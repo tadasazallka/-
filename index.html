@@ -19,7 +19,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden;
+            padding: 20px;
         }
 
         .player-container {
@@ -27,7 +27,7 @@
             backdrop-filter: blur(20px);
             border-radius: 25px;
             padding: 30px;
-            width: 90%;
+            width: 100%;
             max-width: 400px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -39,8 +39,8 @@
         }
 
         .album-art {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             margin: 0 auto 20px;
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
@@ -62,7 +62,7 @@
         }
 
         .song-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             margin-bottom: 10px;
             opacity: 0.9;
@@ -151,59 +151,17 @@
             border-radius: 2px;
             outline: none;
             cursor: pointer;
+            -webkit-appearance: none;
         }
 
-        .playlist {
-            margin-top: 25px;
-            max-height: 200px;
-            overflow-y: auto;
-            border-radius: 15px;
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .playlist-item {
-            padding: 12px 15px;
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #4ecdc4;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .playlist-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .playlist-item.active {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .playlist-item:last-child {
-            border-bottom: none;
-        }
-
-        .mode-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 15px 0;
-        }
-
-        .mode-btn {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 8px 15px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.8rem;
-        }
-
-        .mode-btn.active {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .add-song-container {
@@ -222,6 +180,7 @@
             background: rgba(255, 255, 255, 0.1);
             color: white;
             outline: none;
+            box-sizing: border-box;
         }
 
         .add-song-input::placeholder {
@@ -253,6 +212,50 @@
             text-align: center;
         }
 
+        .playlist {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .playlist-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .playlist-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .playlist-item.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .playlist-item:last-child {
+            border-bottom: none;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            opacity: 0.7;
+            font-size: 1rem;
+            padding: 5px;
+        }
+
+        .remove-btn:hover {
+            opacity: 1;
+        }
+
         /* Scrollbar styling */
         .playlist::-webkit-scrollbar {
             width: 6px;
@@ -273,8 +276,8 @@
     <div class="player-container">
         <div class="song-info">
             <div class="album-art" id="albumArt">🎵</div>
-            <div class="song-title" id="songTitle">בחר שיר להשמעה</div>
-            <div class="artist-name" id="artistName">אמן</div>
+            <div class="song-title" id="songTitle">הוסף שיר ראשון</div>
+            <div class="artist-name" id="artistName">השתמש בטופס למטה</div>
         </div>
 
         <div class="progress-container">
@@ -293,11 +296,6 @@
             <button class="control-btn" id="nextBtn">⏭️</button>
         </div>
 
-        <div class="mode-buttons">
-            <button class="mode-btn" id="shuffleBtn">🔀 ערבוב</button>
-            <button class="mode-btn" id="repeatBtn">🔁 חזרה</button>
-        </div>
-
         <div class="volume-container">
             <span>🔊</span>
             <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
@@ -308,286 +306,238 @@
             <h3 style="margin-bottom: 10px; text-align: center;">הוסף שיר חדש</h3>
             <input type="text" class="add-song-input" id="songNameInput" placeholder="שם השיר">
             <input type="text" class="add-song-input" id="artistNameInput" placeholder="שם האמן">
-            <input type="url" class="add-song-input" id="songUrlInput" placeholder="קישור לשיר (מ-Google Cloud Storage)">
+            <input type="url" class="add-song-input" id="songUrlInput" placeholder="קישור לשיר מ-Google Cloud Storage">
             <button class="add-btn" id="addSongBtn">הוסף שיר</button>
             <div class="error-message" id="errorMessage"></div>
         </div>
 
         <div class="playlist" id="playlist">
-            <!-- Playlist items will be added here -->
+            <!-- רשימת השירים תופיע כאן -->
         </div>
 
         <audio id="audioPlayer" preload="metadata"></audio>
     </div>
 
     <script>
-        class MusicPlayer {
-            constructor() {
-                this.audio = document.getElementById('audioPlayer');
-                this.currentSongIndex = 0;
-                this.isPlaying = false;
-                this.isShuffleOn = false;
-                this.isRepeatOn = false;
-                this.songs = [
-                    {
-                        title: "הוסף שיר ראשון",
-                        artist: "השתמש בטופס למטה",
-                        url: ""
-                    }
-                ];
+        let songs = [];
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        let audio = document.getElementById('audioPlayer');
 
-                this.initializeElements();
-                this.initializeEventListeners();
-                this.loadPlaylist();
-                this.loadSong(0);
+        // Elements
+        const playBtn = document.getElementById('playBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeValue = document.getElementById('volumeValue');
+        const songTitle = document.getElementById('songTitle');
+        const artistName = document.getElementById('artistName');
+        const albumArt = document.getElementById('albumArt');
+        const playlist = document.getElementById('playlist');
+        const addSongBtn = document.getElementById('addSongBtn');
+        const songNameInput = document.getElementById('songNameInput');
+        const artistNameInput = document.getElementById('artistNameInput');
+        const songUrlInput = document.getElementById('songUrlInput');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Event Listeners
+        playBtn.addEventListener('click', togglePlay);
+        prevBtn.addEventListener('click', previousSong);
+        nextBtn.addEventListener('click', nextSong);
+        progressBar.addEventListener('click', setProgress);
+        volumeSlider.addEventListener('input', setVolume);
+        addSongBtn.addEventListener('click', addSong);
+
+        audio.addEventListener('timeupdate', updateProgress);
+        audio.addEventListener('loadedmetadata', updateDuration);
+        audio.addEventListener('ended', handleSongEnd);
+
+        // Functions
+        function addSong() {
+            const title = songNameInput.value.trim();
+            const artist = artistNameInput.value.trim();
+            const url = songUrlInput.value.trim();
+
+            if (!title || !artist || !url) {
+                showError('אנא מלא את כל השדות');
+                return;
             }
 
-            initializeElements() {
-                this.playBtn = document.getElementById('playBtn');
-                this.prevBtn = document.getElementById('prevBtn');
-                this.nextBtn = document.getElementById('nextBtn');
-                this.shuffleBtn = document.getElementById('shuffleBtn');
-                this.repeatBtn = document.getElementById('repeatBtn');
-                this.progressBar = document.getElementById('progressBar');
-                this.progressFill = document.getElementById('progressFill');
-                this.currentTimeEl = document.getElementById('currentTime');
-                this.durationEl = document.getElementById('duration');
-                this.volumeSlider = document.getElementById('volumeSlider');
-                this.volumeValue = document.getElementById('volumeValue');
-                this.songTitle = document.getElementById('songTitle');
-                this.artistName = document.getElementById('artistName');
-                this.albumArt = document.getElementById('albumArt');
-                this.playlist = document.getElementById('playlist');
-                this.addSongBtn = document.getElementById('addSongBtn');
-                this.songNameInput = document.getElementById('songNameInput');
-                this.artistNameInput = document.getElementById('artistNameInput');
-                this.songUrlInput = document.getElementById('songUrlInput');
-                this.errorMessage = document.getElementById('errorMessage');
+            if (!isValidUrl(url)) {
+                showError('אנא הכנס קישור תקין');
+                return;
             }
 
-            initializeEventListeners() {
-                this.playBtn.addEventListener('click', () => this.togglePlay());
-                this.prevBtn.addEventListener('click', () => this.previousSong());
-                this.nextBtn.addEventListener('click', () => this.nextSong());
-                this.shuffleBtn.addEventListener('click', () => this.toggleShuffle());
-                this.repeatBtn.addEventListener('click', () => this.toggleRepeat());
-                
-                this.progressBar.addEventListener('click', (e) => this.setProgress(e));
-                this.volumeSlider.addEventListener('input', (e) => this.setVolume(e.target.value));
-                
-                this.audio.addEventListener('timeupdate', () => this.updateProgress());
-                this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
-                this.audio.addEventListener('ended', () => this.handleSongEnd());
-                
-                this.addSongBtn.addEventListener('click', () => this.addSong());
-            }
+            songs.push({ title, artist, url });
+            updatePlaylist();
+            
+            // Clear inputs
+            songNameInput.value = '';
+            artistNameInput.value = '';
+            songUrlInput.value = '';
+            errorMessage.textContent = '';
 
-            loadSong(index) {
-                if (index >= 0 && index < this.songs.length) {
-                    const song = this.songs[index];
-                    this.audio.src = song.url;
-                    this.songTitle.textContent = song.title;
-                    this.artistName.textContent = song.artist;
-                    this.currentSongIndex = index;
-                    this.updatePlaylistActiveItem();
-                    
-                    this.audio.addEventListener('loadedmetadata', () => {
-                        this.updateDuration();
-                    });
-                }
-            }
-
-            togglePlay() {
-                if (this.isPlaying) {
-                    this.pause();
-                } else {
-                    this.play();
-                }
-            }
-
-            play() {
-                this.audio.play().then(() => {
-                    this.isPlaying = true;
-                    this.playBtn.textContent = '⏸️';
-                    this.albumArt.classList.add('playing');
-                }).catch(error => {
-                    console.error('Error playing audio:', error);
-                    this.showError('שגיאה בהשמעת השיר. בדוק שהקישור תקין.');
-                });
-            }
-
-            pause() {
-                this.audio.pause();
-                this.isPlaying = false;
-                this.playBtn.textContent = '▶️';
-                this.albumArt.classList.remove('playing');
-            }
-
-            previousSong() {
-                if (this.isShuffleOn) {
-                    this.currentSongIndex = Math.floor(Math.random() * this.songs.length);
-                } else {
-                    this.currentSongIndex = this.currentSongIndex > 0 ? this.currentSongIndex - 1 : this.songs.length - 1;
-                }
-                this.loadSong(this.currentSongIndex);
-                if (this.isPlaying) {
-                    this.play();
-                }
-            }
-
-            nextSong() {
-                if (this.isShuffleOn) {
-                    this.currentSongIndex = Math.floor(Math.random() * this.songs.length);
-                } else {
-                    this.currentSongIndex = this.currentSongIndex < this.songs.length - 1 ? this.currentSongIndex + 1 : 0;
-                }
-                this.loadSong(this.currentSongIndex);
-                if (this.isPlaying) {
-                    this.play();
-                }
-            }
-
-            toggleShuffle() {
-                this.isShuffleOn = !this.isShuffleOn;
-                this.shuffleBtn.classList.toggle('active', this.isShuffleOn);
-            }
-
-            toggleRepeat() {
-                this.isRepeatOn = !this.isRepeatOn;
-                this.repeatBtn.classList.toggle('active', this.isRepeatOn);
-            }
-
-            setProgress(e) {
-                const rect = this.progressBar.getBoundingClientRect();
-                const percent = (e.clientX - rect.left) / rect.width;
-                const seekTime = percent * this.audio.duration;
-                this.audio.currentTime = seekTime;
-            }
-
-            setVolume(volume) {
-                this.audio.volume = volume / 100;
-                this.volumeValue.textContent = volume + '%';
-            }
-
-            updateProgress() {
-                if (this.audio.duration) {
-                    const percent = (this.audio.currentTime / this.audio.duration) * 100;
-                    this.progressFill.style.width = percent + '%';
-                    this.currentTimeEl.textContent = this.formatTime(this.audio.currentTime);
-                }
-            }
-
-            updateDuration() {
-                if (this.audio.duration) {
-                    this.durationEl.textContent = this.formatTime(this.audio.duration);
-                }
-            }
-
-            handleSongEnd() {
-                if (this.isRepeatOn) {
-                    this.audio.currentTime = 0;
-                    this.play();
-                } else {
-                    this.nextSong();
-                }
-            }
-
-            formatTime(seconds) {
-                const mins = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${mins}:${secs.toString().padStart(2, '0')}`;
-            }
-
-            loadPlaylist() {
-                this.playlist.innerHTML = '';
-                this.songs.forEach((song, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'playlist-item';
-                    item.innerHTML = `
-                        <div>
-                            <div style="font-weight: bold;">${song.title}</div>
-                            <div style="opacity: 0.7; font-size: 0.8rem;">${song.artist}</div>
-                        </div>
-                        <button onclick="player.removeSong(${index})" style="background: none; border: none; color: white; cursor: pointer; opacity: 0.7;">❌</button>
-                    `;
-                    item.addEventListener('click', (e) => {
-                        if (e.target.tagName !== 'BUTTON') {
-                            this.loadSong(index);
-                            this.play();
-                        }
-                    });
-                    this.playlist.appendChild(item);
-                });
-            }
-
-            updatePlaylistActiveItem() {
-                const items = this.playlist.querySelectorAll('.playlist-item');
-                items.forEach((item, index) => {
-                    item.classList.toggle('active', index === this.currentSongIndex);
-                });
-            }
-
-            addSong() {
-                const title = this.songNameInput.value.trim();
-                const artist = this.artistNameInput.value.trim();
-                const url = this.songUrlInput.value.trim();
-
-                if (!title || !artist || !url) {
-                    this.showError('אנא מלא את כל השדות');
-                    return;
-                }
-
-                if (!this.isValidUrl(url)) {
-                    this.showError('אנא הכנס קישור תקין');
-                    return;
-                }
-
-                this.songs.push({ title, artist, url });
-                this.loadPlaylist();
-                
-                // Clear inputs
-                this.songNameInput.value = '';
-                this.artistNameInput.value = '';
-                this.songUrlInput.value = '';
-                this.errorMessage.textContent = '';
-            }
-
-            removeSong(index) {
-                if (this.songs.length > 1) {
-                    this.songs.splice(index, 1);
-                    if (index === this.currentSongIndex) {
-                        this.loadSong(0);
-                    } else if (index < this.currentSongIndex) {
-                        this.currentSongIndex--;
-                    }
-                    this.loadPlaylist();
-                } else {
-                    this.showError('חייב להישאר לפחות שיר אחד ברשימה');
-                }
-            }
-
-            isValidUrl(string) {
-                try {
-                    new URL(string);
-                    return true;
-                } catch (_) {
-                    return false;
-                }
-            }
-
-            showError(message) {
-                this.errorMessage.textContent = message;
-                setTimeout(() => {
-                    this.errorMessage.textContent = '';
-                }, 3000);
+            // If this is the first song, load it
+            if (songs.length === 1) {
+                loadSong(0);
             }
         }
 
-        // Initialize player when page loads
-        let player;
-        document.addEventListener('DOMContentLoaded', () => {
-            player = new MusicPlayer();
-        });
+        function updatePlaylist() {
+            playlist.innerHTML = '';
+            songs.forEach((song, index) => {
+                const item = document.createElement('div');
+                item.className = 'playlist-item' + (index === currentSongIndex ? ' active' : '');
+                item.innerHTML = `
+                    <div>
+                        <div style="font-weight: bold;">${song.title}</div>
+                        <div style="opacity: 0.7; font-size: 0.8rem;">${song.artist}</div>
+                    </div>
+                    <button class="remove-btn" onclick="removeSong(${index})">❌</button>
+                `;
+                item.addEventListener('click', (e) => {
+                    if (e.target.tagName !== 'BUTTON') {
+                        loadSong(index);
+                    }
+                });
+                playlist.appendChild(item);
+            });
+        }
+
+        function loadSong(index) {
+            if (index >= 0 && index < songs.length) {
+                const song = songs[index];
+                audio.src = song.url;
+                songTitle.textContent = song.title;
+                artistName.textContent = song.artist;
+                currentSongIndex = index;
+                updatePlaylist();
+            }
+        }
+
+        function togglePlay() {
+            if (songs.length === 0) {
+                showError('הוסף שיר כדי להתחיל');
+                return;
+            }
+
+            if (isPlaying) {
+                audio.pause();
+                playBtn.textContent = '▶️';
+                albumArt.classList.remove('playing');
+                isPlaying = false;
+            } else {
+                audio.play().then(() => {
+                    playBtn.textContent = '⏸️';
+                    albumArt.classList.add('playing');
+                    isPlaying = true;
+                }).catch(error => {
+                    showError('שגיאה בהשמעת השיר. בדוק שהקישור תקין.');
+                });
+            }
+        }
+
+        function previousSong() {
+            if (songs.length === 0) return;
+            currentSongIndex = currentSongIndex > 0 ? currentSongIndex - 1 : songs.length - 1;
+            loadSong(currentSongIndex);
+            if (isPlaying) {
+                audio.play();
+            }
+        }
+
+        function nextSong() {
+            if (songs.length === 0) return;
+            currentSongIndex = currentSongIndex < songs.length - 1 ? currentSongIndex + 1 : 0;
+            loadSong(currentSongIndex);
+            if (isPlaying) {
+                audio.play();
+            }
+        }
+
+        function setProgress(e) {
+            if (audio.duration) {
+                const rect = progressBar.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = percent * audio.duration;
+            }
+        }
+
+        function setVolume() {
+            const volume = volumeSlider.value;
+            audio.volume = volume / 100;
+            volumeValue.textContent = volume + '%';
+        }
+
+        function updateProgress() {
+            if (audio.duration) {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = percent + '%';
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            }
+        }
+
+        function updateDuration() {
+            if (audio.duration) {
+                durationEl.textContent = formatTime(audio.duration);
+            }
+        }
+
+        function handleSongEnd() {
+            nextSong();
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function removeSong(index) {
+            if (songs.length > 1) {
+                songs.splice(index, 1);
+                if (index === currentSongIndex) {
+                    if (currentSongIndex >= songs.length) {
+                        currentSongIndex = 0;
+                    }
+                    loadSong(currentSongIndex);
+                } else if (index < currentSongIndex) {
+                    currentSongIndex--;
+                }
+                updatePlaylist();
+            } else if (songs.length === 1) {
+                songs = [];
+                currentSongIndex = 0;
+                songTitle.textContent = 'הוסף שיר ראשון';
+                artistName.textContent = 'השתמש בטופס למטה';
+                audio.src = '';
+                updatePlaylist();
+            }
+        }
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            setTimeout(() => {
+                errorMessage.textContent = '';
+            }, 3000);
+        }
+
+        // Initialize
+        setVolume();
     </script>
 </body>
 </html>
