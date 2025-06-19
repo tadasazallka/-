@@ -500,12 +500,16 @@
 
         function removeSong(index) {
             if (songs.length > 1) {
+                const wasPlaying = isPlaying;
                 songs.splice(index, 1);
                 if (index === currentSongIndex) {
                     if (currentSongIndex >= songs.length) {
                         currentSongIndex = 0;
                     }
                     loadSong(currentSongIndex);
+                    if (wasPlaying) {
+                        audio.play();
+                    }
                 } else if (index < currentSongIndex) {
                     currentSongIndex--;
                 }
@@ -515,7 +519,14 @@
                 currentSongIndex = 0;
                 songTitle.textContent = 'הוסף שיר ראשון';
                 artistName.textContent = 'השתמש בטופס למטה';
+                audio.pause();
                 audio.src = '';
+                isPlaying = false;
+                playBtn.textContent = '▶️';
+                albumArt.classList.remove('playing');
+                progressFill.style.width = '0%';
+                currentTimeEl.textContent = '0:00';
+                durationEl.textContent = '0:00';
                 updatePlaylist();
             }
         }
